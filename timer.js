@@ -6,13 +6,14 @@ export function timer() {
 	console.log('Active since:', currentDate.toDateString());
 
 	const initialTimerStart = 0;
-	let startMinutes = 0;
-	const timeLimit = 20; // in minutes
+	let timerSteps = 0;
+	const stepUnit = 60000; // in ms
+	const stepLimit = 20; // times stepUnit
 	const timerObservable = new Observable(observable => {
 		try {
 			setInterval(() => {
-				observable.next(startMinutes += 1);
-			}, 60000);
+				observable.next(timerSteps += 1);
+			}, stepUnit);
 		}
 		catch {
 			observable.error('Caught error!');
@@ -22,14 +23,14 @@ export function timer() {
 	const timerObserver = {
 		next: value => {
 			printToScreen(value, "divTimer");
-			if (value >= timeLimit) {
+			if (value >= stepLimit) {
 				colorBackground('red');
 			}
-			if (value >= timeLimit * 2) {
+			if (value >= stepLimit * 2) {
 				colorBackground('lime');
 			}
-			if (value % timeLimit == 0) {
-				console.log('play once!', value, value % timeLimit, value % (timeLimit * 2));
+			if (value % stepLimit == 0) {
+				console.log('play once!', value, value % stepLimit, value % (stepLimit * 2));
 				playSound();
 			}
 		},
@@ -55,13 +56,12 @@ export function timer() {
 			}
 		}
 		else {
-			el.innerHTML = text;
 			document.getElementById('timer').append(el);
 		}
 	}
 
-	function resetStartMinutes() {
-		startMinutes = initialTimerStart;
+	function resetTimer() {
+		timerSteps = initialTimerStart;
 	}
 
 	function addResetButton() {
@@ -71,9 +71,8 @@ export function timer() {
 		document.getElementById('timer').append(el);
 
 		document.getElementById('resetTimer').addEventListener('click', () => {
-			console.log('clicked');
 			colorBackground('black');
-			resetStartMinutes()
+			resetTimer()
 		});
 	}
 	addResetButton();
