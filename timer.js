@@ -7,12 +7,12 @@ export function timer() {
 
 	const initialTimerStart = 0;
 	let startMinutes = 0;
-	const timeLimit = 100; // in seconds
+	const timeLimit = 20; // in minutes
 	const timerObservable = new Observable(observable => {
 		try {
 			setInterval(() => {
 				observable.next(startMinutes += 1);
-			}, 1000);
+			}, 60000);
 		}
 		catch {
 			observable.error('Caught error!');
