@@ -8,7 +8,7 @@ export function timer() {
   const initialTimerStart = 0;
   let timerSteps = 0;
   const stepUnit = 60000; // in ms
-  const stepLimit = 20; // times stepUnit
+  const stepLimit = 25; // times stepUnit (minutes)
   const timerObservable = new Observable((observable) => {
     try {
       setInterval(() => {
